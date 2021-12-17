@@ -34,6 +34,7 @@ router.post( '/register',
 
                     const files = Object.values(req.files);
                     
+                    
                     // upload to Cloudinary
                     await cloudinary.uploader.upload(
                         files[0].path,
@@ -49,6 +50,7 @@ router.post( '/register',
                             } else {
                                 // Include the image url in formData
                                 formData.avatar = cloudinaryResult.url;
+                                console.log('formData.avatar', formData.avatar)
                             }
                         }
                     )
@@ -186,7 +188,13 @@ router.post('/login',
                                             // Send the jsonwebtoken to the client
                                             res.json(
                                                 {
-                                                    "message": jsonwebtoken
+                                                    "message": {
+                                                        email: dbDocument.email,
+                                                        avatar: dbDocument.avatar,
+                                                        firstName: dbDocument.firstName,
+                                                        lastName: dbDocument.lastName,
+                                                        jsonwebtoken: jsonwebtoken
+                                                    }
                                                 }
                                             );
                                         }
